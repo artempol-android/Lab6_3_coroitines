@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         observeBitmap()
         model.downloadPicture()
+
     }
 
     private fun observeBitmap() {
