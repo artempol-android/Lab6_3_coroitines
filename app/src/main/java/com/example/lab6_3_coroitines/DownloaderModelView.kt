@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.URL
 
 class DownloaderModelView : ViewModel() {
@@ -18,11 +19,12 @@ class DownloaderModelView : ViewModel() {
     fun downloadPicture() {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("Thread: ", Thread.currentThread().name)
-            bitmap.postValue(
-                BitmapFactory.decodeStream(
-                    polytechURL.openConnection().getInputStream()
-                )
-            )
+            val picture = BitmapFactory.decodeStream(
+                polytechURL.openConnection().getInputStream())
+
+            withContext(Dispatchers.Main) {
+                bitmap.value = picture
+            }
         }
     }
 }
